@@ -11,7 +11,7 @@
 " F4 开启/关闭 taglist
 " F5 打开历史打开过的文件列表
 " F6 打开/关闭 winmanager
-" F10 更新taglist
+" F10 更新taglist 
 
 " taglist快捷键
 " <CR>          跳到光标下tag所定义的位置，用鼠标双击此tag功能也一样
@@ -30,10 +30,6 @@
 " <F1>          显示帮助
 
 
-" ctrl-j切换到下方的分割窗口
-" ctrl-k切换到上方的分割窗口
-" ctrl-l切换到右侧的分割窗口
-" ctrl-h切换到左侧的分割窗口
 
 " NERD_Commenter 加/解注释快捷键
 " <leader>cc   加注释
@@ -44,8 +40,15 @@
 " <leader>cs  '性感的'注释(我很喜欢这个!)
 
 
+" sl 左右切分 光标停留在右侧窗口
+" sh 左右切分 光标停留在左侧窗口 
+" sk 上下切分 光标停留在上方窗口
+" sj 上下切分 光标停留在下方窗口
 
-
+" <LEADER>l 空格+l 切换右侧窗口
+" <LEADER>k 空格+k 切换上方窗口
+" <LEADER>h 空格+h 切换左侧窗口
+" <LEADER>j 空格+j 切换下方窗口
 
 
 
@@ -65,6 +68,11 @@ endif
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 syntax on
+filetype on
+filetype indent on
+filetype plugin on
+filetype plugin indent on
+let mapleader=" "
 set nu
 set tabstop=4
 set softtabstop=4
@@ -84,6 +92,21 @@ set hlsearch " 搜索突出
 set expandtab
 set autoindent " 自动缩进
 set backspace=2 " 设置 backspace可以删除任意字符
+map S :w<CR>  " 保存
+map Q :q<CR>  " 推出
+map R :source $MYVIMRC<CR>  " 刷新配置
+
+set showcmd
+set wildmenu
+let &t_ut=''
+
+let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+let &t_SR = "\<Esc>]50;CursorShape=2\x7"
+let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+
+au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+
+
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -93,10 +116,21 @@ set backspace=2 " 设置 backspace可以删除任意字符
 set splitbelow
 
 " 窗口切换
-nnoremap <C-J> <C-W><C-J> " ctrl-j切换到下方的分割窗口
-nnoremap <C-K> <C-W><C-K> " ctrl-k切换到上方的分割窗口
-nnoremap <C-L> <C-W><C-L> " ctrl-l切换到右侧的分割窗口
-nnoremap <C-H> <C-W><C-H> " ctrl-h切换到左侧的分割窗口
+map sl :set splitright<CR>:vsplit<CR>
+map sh :set nosplitright<CR>:vsplit<CR>
+map sk :set nosplitbelow<CR>:split<CR>
+map sj :set splitbelow<CR>:split<CR> 
+
+" 切换窗口
+map <LEADER>l <C-w>l
+map <LEADER>k <C-w>k
+map <LEADER>h <C-w>h
+map <LEADER>j <C-w>j
+
+
+
+
+
 
 
 
@@ -144,6 +178,10 @@ Plugin 'preservim/nerdcommenter'
 " github
 Plugin 'airblade/vim-gitgutter'
 Plugin 'tpope/vim-fugitive'
+Plugin 'rhysd/conflict-marker.vim'
+Plugin 'mhinz/vim-signify'
+Plugin 'gisphm/vim-gitignore', { 'for': ['gitignore', 'vim-plug'] }
+
 " 补全引号
 Plugin 'Raimondi/delimitMate'
 " 补全路径
@@ -165,6 +203,10 @@ Plugin 'hail2u/vim-css3-syntax'
 Plugin 'ap/vim-css-color'
 " JS
 Plugin 'pangloss/vim-javascript'
+Plugin 'gko/vim-coloresque', { 'for': ['vim-plug', 'php', 'html', 'javascript', 'css', 'less'] }
+Plugin 'mattn/emmet-vim'
+Plugin 'elzr/vim-json'
+
 
 
 " 语法高亮&语法检查
